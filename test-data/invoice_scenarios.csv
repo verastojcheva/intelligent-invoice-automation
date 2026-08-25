@@ -1,0 +1,16 @@
+file_name,scenario,expected_result,reason,invoice_number,supplier_name,vat_number,po_number,total_amount,currency
+invoice_01_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-001,Lakeside Engineering Oy,FI45678901,PO-1001,862.66,EUR
+invoice_02_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-002,FinnTech Supplies Oy,FI89012345,PO-1002,2523.3,EUR
+invoice_03_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-003,NorthStar Process Oy,FI20202020,PO-1003,6617.87,EUR
+invoice_04_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-004,Aurora Maintenance Oy,FI78901234,PO-1004,3873.58,USD
+invoice_05_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-005,FinnTech Supplies Oy,FI89012345,PO-1006,7013.53,EUR
+invoice_06_duplicate.pdf,DUPLICATE,REJECT,Invoice number already exists in historical invoices.,HIST-1001,Lakeside Engineering Oy,FI45678901,PO-1014,6182.04,SEK
+invoice_07_missing_po.pdf,MISSING_PO,MANUAL_REVIEW,Referenced purchase order does not exist.,INV-007,Northern Steelworks Oy,FI67890123,PO-9999,10623.02,EUR
+invoice_08_unknown_supplier.pdf,UNKNOWN_SUPPLIER,MANUAL_REVIEW,Supplier VAT number does not exist in supplier master data.,INV-008,Unknown Industrial Supplier Oy,FI99999999,PO-1008,3622.05,EUR
+invoice_09_amount_mismatch.pdf,AMOUNT_MISMATCH,MANUAL_REVIEW,Invoice amount exceeds the configured 2% PO tolerance.,INV-009,Baltic Components Oy,FI34567890,PO-1009,6489.67,EUR
+invoice_10_wrong_currency.pdf,WRONG_CURRENCY,MANUAL_REVIEW,Invoice currency does not match the purchase order.,INV-010,FinnTech Supplies Oy,FI89012345,PO-1002,2523.3,USD
+invoice_11_missing_vat.pdf,MISSING_VAT,MANUAL_REVIEW,VAT number is missing.,INV-011,NorthStar Process Oy,,PO-1003,6617.87,EUR
+invoice_12_high_value.pdf,HIGH_VALUE,MANUAL_REVIEW,"Invoice matches the PO but exceeds the €10,000 auto-approval limit.",INV-012,Northern Steelworks Oy,FI67890123,PO-1007,10623.02,EUR
+invoice_13_bad_quality.pdf,BAD_QUALITY,MANUAL_REVIEW,Document quality is intentionally degraded for extraction testing.,INV-013,Aurora Maintenance Oy,FI78901234,PO-1004,3873.58,USD
+invoice_14_valid.pdf,VALID,AUTO_PROCESS,Second valid-template test case.,INV-014,FinnTech Supplies Oy,FI89012345,PO-1006,7013.53,EUR
+invoice_15_duplicate.pdf,DUPLICATE,REJECT,Repeated historical invoice number for duplicate-detection testing.,HIST-1001,Lakeside Engineering Oy,FI45678901,PO-1014,6182.04,SEK

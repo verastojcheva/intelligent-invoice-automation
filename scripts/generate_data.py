@@ -96,7 +96,7 @@ def generate_purchase_orders():
             (
                 f"PO-{1000 + i}",
                 supplier[0],
-                round(random.uniform(500, 9500), 2),
+                round(random.uniform(500, 15000), 2),
                 random.choice(["EUR", "EUR", "EUR", "SEK", "USD"]),
                 random.choice(["OPEN", "OPEN", "OPEN", "CLOSED"]),
             )
