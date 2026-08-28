@@ -1,16 +1,18 @@
-file_name,scenario,expected_result,reason,invoice_number,supplier_name,vat_number,po_number,total_amount,currency
-invoice_01_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-001,Lakeside Engineering Oy,FI45678901,PO-1001,862.66,EUR
-invoice_02_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-002,FinnTech Supplies Oy,FI89012345,PO-1002,2523.3,EUR
-invoice_03_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-003,NorthStar Process Oy,FI20202020,PO-1003,6617.87,EUR
-invoice_04_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-004,Aurora Maintenance Oy,FI78901234,PO-1004,3873.58,USD
-invoice_05_valid.pdf,VALID,AUTO_PROCESS,"Supplier, PO, amount and currency all match.",INV-005,FinnTech Supplies Oy,FI89012345,PO-1006,7013.53,EUR
-invoice_06_duplicate.pdf,DUPLICATE,REJECT,Invoice number already exists in historical invoices.,HIST-1001,Lakeside Engineering Oy,FI45678901,PO-1014,6182.04,SEK
-invoice_07_missing_po.pdf,MISSING_PO,MANUAL_REVIEW,Referenced purchase order does not exist.,INV-007,Northern Steelworks Oy,FI67890123,PO-9999,10623.02,EUR
-invoice_08_unknown_supplier.pdf,UNKNOWN_SUPPLIER,MANUAL_REVIEW,Supplier VAT number does not exist in supplier master data.,INV-008,Unknown Industrial Supplier Oy,FI99999999,PO-1008,3622.05,EUR
-invoice_09_amount_mismatch.pdf,AMOUNT_MISMATCH,MANUAL_REVIEW,Invoice amount exceeds the configured 2% PO tolerance.,INV-009,Baltic Components Oy,FI34567890,PO-1009,6489.67,EUR
-invoice_10_wrong_currency.pdf,WRONG_CURRENCY,MANUAL_REVIEW,Invoice currency does not match the purchase order.,INV-010,FinnTech Supplies Oy,FI89012345,PO-1002,2523.3,USD
-invoice_11_missing_vat.pdf,MISSING_VAT,MANUAL_REVIEW,VAT number is missing.,INV-011,NorthStar Process Oy,,PO-1003,6617.87,EUR
-invoice_12_high_value.pdf,HIGH_VALUE,MANUAL_REVIEW,"Invoice matches the PO but exceeds the €10,000 auto-approval limit.",INV-012,Northern Steelworks Oy,FI67890123,PO-1007,10623.02,EUR
-invoice_13_bad_quality.pdf,BAD_QUALITY,MANUAL_REVIEW,Document quality is intentionally degraded for extraction testing.,INV-013,Aurora Maintenance Oy,FI78901234,PO-1004,3873.58,USD
-invoice_14_valid.pdf,VALID,AUTO_PROCESS,Second valid-template test case.,INV-014,FinnTech Supplies Oy,FI89012345,PO-1006,7013.53,EUR
-invoice_15_duplicate.pdf,DUPLICATE,REJECT,Repeated historical invoice number for duplicate-detection testing.,HIST-1001,Lakeside Engineering Oy,FI45678901,PO-1014,6182.04,SEK
+file_name,scenario,expected_result,expected_issues,reason,invoice_number,supplier_name,vat_number,po_number,total_amount,currency
+invoice_01_valid.pdf,VALID,AUTO_PROCESS,,"Supplier, PO, amount and currency all match.",INV-001,Lakeside Engineering Oy,FI45678901,PO-1001,862.66,EUR
+invoice_02_valid.pdf,VALID,AUTO_PROCESS,,"Supplier, PO, amount and currency all match.",INV-002,FinnTech Supplies Oy,FI89012345,PO-1002,2523.30,EUR
+invoice_03_valid.pdf,VALID,AUTO_PROCESS,,"Supplier, PO, amount and currency all match.",INV-003,NorthStar Process Oy,FI20202020,PO-1003,6617.87,EUR
+invoice_04_valid.pdf,VALID,AUTO_PROCESS,,"Supplier, PO, amount and currency all match.",INV-004,FinnTech Supplies Oy,FI89012345,PO-1006,7013.53,EUR
+invoice_05_valid.pdf,VALID,AUTO_PROCESS,,"Supplier, PO, amount and currency all match.",INV-005,Polar Automation Oy,FI56789012,PO-1008,3622.05,EUR
+invoice_06_duplicate.pdf,DUPLICATE,REJECT,DUPLICATE_INVOICE,Invoice number already exists in historical invoices.,HIST-1004,Lakeside Engineering Oy,FI45678901,PO-1001,867.78,EUR
+invoice_07_missing_po.pdf,MISSING_PO,MANUAL_REVIEW,MISSING_PO,Referenced purchase order does not exist.,INV-007,Industrial Flow Oy,FI44556677,PO-9999,1642.60,EUR
+invoice_08_unknown_supplier.pdf,UNKNOWN_SUPPLIER,MANUAL_REVIEW,UNKNOWN_SUPPLIER,Supplier VAT number does not exist in supplier master data.,INV-008,Unknown Industrial Supplier Oy,FI99999999,PO-1012,3288.18,EUR
+invoice_09_amount_mismatch.pdf,AMOUNT_MISMATCH,MANUAL_REVIEW,AMOUNT_MISMATCH,Invoice amount exceeds the configured 2% PO tolerance.,INV-009,Northern Steelworks Oy,FI67890123,PO-1015,6337.03,EUR
+invoice_10_wrong_currency.pdf,WRONG_CURRENCY,MANUAL_REVIEW,WRONG_CURRENCY,Invoice currency does not match the purchase order.,INV-010,Baltic Components Oy,FI34567890,PO-1016,9332.40,USD
+invoice_11_missing_vat.pdf,MISSING_VAT,MANUAL_REVIEW,MISSING_VAT,VAT number is missing.,INV-011,Northern Steelworks Oy,,PO-1017,7202.77,EUR
+invoice_12_high_value.pdf,HIGH_VALUE,MANUAL_REVIEW,HIGH_VALUE,"Invoice matches the PO but exceeds the EUR 10,000 auto-approval limit.",INV-012,Northern Steelworks Oy,FI67890123,PO-1007,10623.02,EUR
+invoice_13_bad_quality.pdf,BAD_QUALITY,MANUAL_REVIEW,LOW_DOCUMENT_QUALITY,Document is image-based and intentionally degraded for OCR/confidence testing.,INV-013,Polar Automation Oy,FI56789012,PO-1022,4340.76,EUR
+invoice_14_valid.pdf,VALID,AUTO_PROCESS,,Second valid-template test case.,INV-014,Baltic Components Oy,FI34567890,PO-1009,6008.95,EUR
+invoice_15_duplicate.pdf,DUPLICATE,REJECT,DUPLICATE_INVOICE,Repeated historical invoice number in a second document layout.,HIST-1004,Lakeside Engineering Oy,FI45678901,PO-1001,867.78,EUR
+invoice_16_multi_review.pdf,MULTI_FAULT_REVIEW,MANUAL_REVIEW,MISSING_VAT|WRONG_CURRENCY|HIGH_VALUE,"Multiple applicable findings: VAT is missing, invoice currency does not match the PO, and total exceeds the EUR 10,000 auto-approval limit.",INV-016,FinnTech Supplies Oy,,PO-1013,11709.49,USD
+invoice_17_multi_reject.pdf,MULTI_FAULT_REJECT,REJECT,DUPLICATE_INVOICE|AMOUNT_MISMATCH|WRONG_CURRENCY,Duplicate protection determines the final REJECT route; amount and currency mismatches must also be recorded.,HIST-1004,Lakeside Engineering Oy,FI45678901,PO-1001,937.20,USD

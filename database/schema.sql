@@ -76,7 +76,15 @@ CREATE TABLE AutomationLog (
                             )
                         ),
 
-    exception_message   TEXT
+    exception_message   TEXT,
+
+    -- Pipe-delimited or JSON-serialized validation findings produced by
+    -- business/document validation. Supports multiple issues per invoice.
+    validation_issues   TEXT,
+
+    -- Optional record of checks that could not run because a prerequisite
+    -- was unavailable (for example PO-dependent checks when the PO is missing).
+    skipped_checks      TEXT
 );
 
 
