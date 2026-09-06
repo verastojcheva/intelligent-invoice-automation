@@ -1,0 +1,6 @@
+{
+  "Name": "InvoiceAutomation",
+  "ProjectType": "Process",
+  "Description": "Enterprise Intelligent Invoice Processing Automation",
+  "MainFile": "Main.xaml"
+}

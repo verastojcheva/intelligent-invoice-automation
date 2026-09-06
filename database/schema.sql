@@ -85,6 +85,9 @@ CREATE TABLE AutomationLog (
     -- Optional record of checks that could not run because a prerequisite
     -- was unavailable (for example PO-dependent checks when the PO is missing).
     skipped_checks      TEXT
+
+    -- ERP document/reference number returned after successful posting.
+    erp_reference       TEXT
 );
 
 
