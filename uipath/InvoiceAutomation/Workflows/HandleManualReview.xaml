@@ -1,0 +1,311 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="HandleManualReview" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/ocr" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Drawing;assembly=System.Drawing.Common" xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives" xmlns:sd2="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_DatabasePath" Type="InArgument(x:String)" />
+    <x:Property Name="out_ReviewDecision" Type="OutArgument(x:String)" />
+    <x:Property Name="out_ReviewReference" Type="OutArgument(x:String)" />
+    <x:Property Name="in_InvoicePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_SkippedChecks" Type="InArgument(s:String[])" />
+    <x:Property Name="in_ValidationIssues" Type="InArgument(s:String[])" />
+    <x:Property Name="in_Currency" Type="InArgument(x:String)" />
+    <x:Property Name="in_TotalAmount" Type="InArgument(x:Double)" />
+    <x:Property Name="in_SupplierName" Type="InArgument(x:String)" />
+    <x:Property Name="in_InvoiceNumber" Type="InArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>HandleManualReview_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>UiPath.Persistence.Activities.Model.TaskTimer</x:String>
+      <x:String>UiPath.Persistence.Activities.Tasks</x:String>
+      <x:String>UiPath.Persistence.Activities.Model.Task</x:String>
+      <x:String>UiPath.Persistence.Activities.FormTask</x:String>
+      <x:String>UiPath.Persistence.Activities.BaseTask</x:String>
+      <x:String>UiPath.Persistence.Activities</x:String>
+      <x:String>System.Globalization</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>UiPath.Vision.OCR</x:String>
+      <x:String>UiPath.OCR.Activities</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>UiPath.OCR.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+      <x:String>UiPath.OCR.Contracts.Activities</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>UiPath.Database</x:String>
+      <x:String>UiPath.Database.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>UiPath.Persistence.Activities</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Vision.OmniPage.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Vision.Core</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Contracts</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.PDF.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Python.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OmniPage.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="HandleManualReview" sap:VirtualizedContainerService.HintSize="843.6,2032.8000000000002" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd2:DataTable" Name="reviewResult" />
+      <Variable x:TypeArguments="x:String" Default="[String.Empty]" Name="reviewDecision" />
+      <Variable x:TypeArguments="x:String" Name="reviewUrl" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign sap:VirtualizedContainerService.HintSize="486.4,174.4" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_ReviewReference]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["REV-" &amp; in_InvoiceNumber &amp; "-" &amp; DateTime.Now.ToString("yyyyMMddHHmmss")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="486.4,174.4" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[reviewUrl]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String" xml:space="preserve">["http://127.0.0.1:5001/?" &amp;
+"reviewReference=" &amp; System.Uri.EscapeDataString(out_ReviewReference) &amp;
+"&amp;invoiceNumber=" &amp; System.Uri.EscapeDataString(in_InvoiceNumber) &amp;
+"&amp;supplier=" &amp; System.Uri.EscapeDataString(in_SupplierName) &amp;
+"&amp;amount=" &amp; System.Uri.EscapeDataString(in_TotalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)) &amp;
+"&amp;currency=" &amp; System.Uri.EscapeDataString(in_Currency) &amp;
+"&amp;issues=" &amp; System.Uri.EscapeDataString(
+    If(
+        in_ValidationIssues Is Nothing,
+        "",
+        String.Join("|", in_ValidationIssues)
+    )
+) &amp;
+"&amp;skippedChecks=" &amp; System.Uri.EscapeDataString(
+    If(
+        in_SkippedChecks Is Nothing,
+        "",
+        String.Join("|", in_SkippedChecks)
+    )
+)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Invoice Manual Review" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="486.4,480" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="2c35f860-be4f-4cf7-8985-c6a2acc8bc8e" Version="V2">
+      <uix:NApplicationCard.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="449.6,173.6" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <uix:NGoToUrl DisplayName="Go To URL - " sap:VirtualizedContainerService.HintSize="416,113.6" sap2010:WorkflowViewState.IdRef="NGoToUrl_1" ScopeIdentifier="2c35f860-be4f-4cf7-8985-c6a2acc8bc8e" Url="[reviewUrl]" Version="V5" />
+          </Sequence>
+        </ActivityAction>
+      </uix:NApplicationCard.Body>
+      <uix:NApplicationCard.OCREngine>
+        <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))" DisplayName="Custom OCR Engine">
+          <ActivityFunc.Argument>
+            <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
+          </ActivityFunc.Argument>
+          <p:UiPathScreenOCR ApiKey="{x:Null}" Endpoint="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" Text="{x:Null}" UseAccents="{x:Null}" UseLocalServer="{x:Null}" ComputeSkewAngle="False" DisplayName="UiPath Screen OCR" ExtractWords="True" sap:VirtualizedContainerService.HintSize="425.6,24.8" sap2010:WorkflowViewState.IdRef="UiPathScreenOCR_1" Image="[Image]" Language="auto" NoopExecution="False" Profile="Screen" Scale="1" Timeout="100000" UseSeparateOcrProcess="True" />
+        </ActivityFunc>
+      </uix:NApplicationCard.OCREngine>
+      <uix:NApplicationCard.TargetApp>
+        <uix:TargetApp Area="-9, -9, 1938, 1038" BrowserType="Chrome" ContentHash="h--njtW2lUS1YLRsZTcV1Q" IconBase64="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" InformativeScreenshot="7cbac57dce8c9eef4989cc759af9d199.jpg" Reference="jktHrBO1qUqNd2qTo_CaBA/6Ub8mwVf1kiiXYalBn5xZQ" Selector="&lt;html app='chrome.exe' title='Invoice Manual Review' /&gt;" Url="[reviewUrl]" Version="V3">
+          <uix:TargetApp.Arguments>
+            <InArgument x:TypeArguments="x:String" />
+          </uix:TargetApp.Arguments>
+          <uix:TargetApp.WorkingDirectory>
+            <InArgument x:TypeArguments="x:String" />
+          </uix:TargetApp.WorkingDirectory>
+        </uix:TargetApp>
+      </uix:NApplicationCard.TargetApp>
+    </uix:NApplicationCard>
+    <ui:InterruptibleDoWhile CurrentIndex="{x:Null}" Condition="[String.IsNullOrWhiteSpace(reviewDecision)]" DisplayName="Do While" sap:VirtualizedContainerService.HintSize="486.4,958.4" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_1">
+      <ui:InterruptibleDoWhile.Body>
+        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="484.8,828" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="ui:DatabaseConnection" Name="dbConnection" />
+          </Sequence.Variables>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:DatabaseConnect DisplayName="Connect to Database" sap:VirtualizedContainerService.HintSize="451.2,92" sap2010:WorkflowViewState.IdRef="DatabaseConnect_1" ProviderName="Microsoft.Data.Sqlite" ConnectionString="[&quot;Data Source=&quot; &amp; in_DatabasePath &amp; &quot;;&quot;]" DatabaseConnection="[dbConnection]" />
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" DataTable="[reviewResult]" DisplayName="Run Query" ExistingDbConnection="[dbConnection]" sap:VirtualizedContainerService.HintSize="451.2,147.2" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="SELECT decision FROM ManualReviews WHERE review_reference = @reviewReference LIMIT 1;">
+            <ui:ExecuteQuery.Parameters>
+              <InArgument x:TypeArguments="x:String" x:Key="@reviewReference">[out_ReviewReference]</InArgument>
+            </ui:ExecuteQuery.Parameters>
+          </ui:ExecuteQuery>
+          <If Condition="[reviewResult IsNot Nothing AndAlso reviewResult.Rows.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="451.2,528.8" sap2010:WorkflowViewState.IdRef="If_1">
+            <If.Then>
+              <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="449.6,225.6" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign sap:VirtualizedContainerService.HintSize="416,165.6" sap2010:WorkflowViewState.IdRef="Assign_3">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[reviewDecision]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[reviewResult.Rows(0)("decision").ToString()]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="449.6,173.6" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="416,113.6" sap2010:WorkflowViewState.IdRef="Delay_1" />
+              </Sequence>
+            </If.Else>
+          </If>
+        </Sequence>
+      </ui:InterruptibleDoWhile.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InterruptibleDoWhile>
+    <Assign sap:VirtualizedContainerService.HintSize="486.4,174.4" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_ReviewDecision]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[reviewDecision]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="486.4,48" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="449.6,173.6" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="416,113.6" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Invoice requires manual review&quot; &amp; Environment.NewLine &amp;&#xA;Environment.NewLine &amp;&#xA;&quot;Invoice: &quot; &amp; in_InvoiceNumber &amp; Environment.NewLine &amp;&#xA;&quot;Supplier: &quot; &amp; in_SupplierName &amp; Environment.NewLine &amp;&#xA;&quot;Amount: &quot; &amp; in_TotalAmount.ToString(&quot;F2&quot;) &amp; &quot; &quot; &amp; in_Currency &amp; Environment.NewLine &amp;&#xA;Environment.NewLine &amp;&#xA;&quot;Issues found:&quot; &amp; Environment.NewLine &amp;&#xA;If(&#xA;    in_ValidationIssues Is Nothing OrElse in_ValidationIssues.Length = 0,&#xA;    &quot;None&quot;,&#xA;    String.Join(Environment.NewLine, in_ValidationIssues.Select(Function(x) &quot;• &quot; &amp; x))&#xA;) &amp; Environment.NewLine &amp;&#xA;Environment.NewLine &amp;&#xA;&quot;Checks skipped:&quot; &amp; Environment.NewLine &amp;&#xA;If(&#xA;    in_SkippedChecks Is Nothing OrElse in_SkippedChecks.Length = 0,&#xA;    &quot;None&quot;,&#xA;    String.Join(Environment.NewLine, in_SkippedChecks.Select(Function(x) &quot;• &quot; &amp; x))&#xA;)]" />
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+  </Sequence>
+</Activity>

@@ -8,8 +8,11 @@
     "UiPath.OCR.Activities": "[4.4.0-preview]",
     "UiPath.OmniPage.Activities": "[2.2.0-preview]",
     "UiPath.PDF.Activities": "[4.5.0-preview]",
+    "UiPath.Persistence.Activities": "[1.12.0]",
+    "UiPath.Python.Activities": "[2.2.2]",
     "UiPath.System.Activities": "[26.8.1]",
-    "UiPath.UIAutomation.Activities": "[26.10.3]"
+    "UiPath.UIAutomation.Activities": "[26.10.3]",
+    "UiPath.WebAPI.Activities": "[2.5.2]"
   },
   "webServices": [],
   "entitiesStores": [],

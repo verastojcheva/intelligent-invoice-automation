@@ -167,17 +167,38 @@
       </Assign.Value>
     </Assign>
     <ui:DatabaseConnect DisplayName="Connect to Database" sap:VirtualizedContainerService.HintSize="449.6,92" sap2010:WorkflowViewState.IdRef="DatabaseConnect_1" ProviderName="Microsoft.Data.Sqlite" ConnectionString="[&quot;Data Source=&quot; &amp; in_DatabasePath &amp; &quot;;&quot;]" DatabaseConnection="[dbConnection]" />
-    <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Run Command" ExistingDbConnection="[dbConnection]" sap:VirtualizedContainerService.HintSize="449.6,138.4" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_2" Sql="INSERT INTO AutomationLog (transaction_id, invoice_number, timestamp, status, processing_time, exception_type, exception_message, validation_issues, skipped_checks) VALUES (@transactionId, @invoiceNumber, @timestamp, @status, @processingTime, NULLIF(@exceptionType, ''), NULLIF(@exceptionMessage, ''), @validationIssues, @skippedChecks)">
+    <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Run Command" ExistingDbConnection="[dbConnection]" sap:VirtualizedContainerService.HintSize="449.6,138.4" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_2" Sql="INSERT INTO AutomationLog (transaction_id, invoice_number, timestamp, status, processing_time, exception_type, exception_message, validation_issues, skipped_checks, erp_reference) VALUES (@transactionId, @invoiceNumber, @timestamp, @status, @processingTime, NULLIF(@exceptionType, ''), NULLIF(@exceptionMessage, ''), @validationIssues, @skippedChecks, NULLIF(@erpReference, ''))">
       <ui:ExecuteNonQuery.Parameters>
-        <InArgument x:TypeArguments="x:String" x:Key="@transactionId">[transactionId]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="@invoiceNumber">[in_InvoiceNumber]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="@timestamp">[timestampText]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="@status">[logStatus]</InArgument>
-        <InArgument x:TypeArguments="x:Double" x:Key="@processingTime">[in_ProcessingTime]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="@exceptionType">[in_ExceptionType]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="@exceptionMessage">[If(String.IsNullOrWhiteSpace(in_ExceptionMessage), Nothing, in_ExceptionMessage)]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="@validationIssues">[validationIssuesText]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="@skippedChecks">[skippedChecksText]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@transactionId">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="transactionId" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@invoiceNumber">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_InvoiceNumber" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@timestamp">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="timestampText" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@status">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="logStatus" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:Double" x:Key="@processingTime">
+          <VisualBasicValue x:TypeArguments="x:Double" ExpressionText="in_ProcessingTime" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@exceptionType">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_ExceptionType" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@exceptionMessage">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="If(String.IsNullOrWhiteSpace(in_ExceptionMessage), Nothing, in_ExceptionMessage)" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@validationIssues">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="validationIssuesText" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@skippedChecks">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="skippedChecksText" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="@erpReference">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_ERPReference" />
+        </InArgument>
       </ui:ExecuteNonQuery.Parameters>
     </ui:ExecuteNonQuery>
   </Sequence>

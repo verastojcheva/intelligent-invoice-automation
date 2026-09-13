@@ -207,6 +207,7 @@
                   </Assign>
                   <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="LogTransaction - Invoke Workflow File (Workflows\LogTransaction.xaml)" sap:VirtualizedContainerService.HintSize="484.8,176" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Workflows\LogTransaction.xaml">
                     <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_ERPReference">[String.Empty]</InArgument>
                       <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionMessage">[String.Empty]</InArgument>
                       <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionType">[String.Empty]</InArgument>
                       <InArgument x:TypeArguments="x:Double" x:Key="in_ProcessingTime">[processingTime]</InArgument>

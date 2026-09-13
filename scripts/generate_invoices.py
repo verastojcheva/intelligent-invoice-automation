@@ -4,6 +4,7 @@ import random
 import sqlite3
 import tempfile
 from pathlib import Path
+import re
 
 import fitz
 from PIL import Image, ImageEnhance, ImageFilter
@@ -129,6 +130,28 @@ def select_unique_pos(open_pos, predicate, count, used_po_numbers, description):
     used_po_numbers.update(po["po_number"] for po in selected)
     return selected
 
+def make_valid_finnish_iban(raw_iban: str) -> str:
+    if not raw_iban:
+        return raw_iban
+
+    digits = re.sub(r"\D", "", str(raw_iban))
+
+    if len(digits) < 14:
+        raise ValueError(f"Cannot build Finnish IBAN from: {raw_iban}")
+
+    bban = digits[-14:]
+
+    provisional = bban + "FI00"
+
+    numeric = "".join(
+        str(ord(char) - 55) if char.isalpha() else char
+        for char in provisional
+    )
+
+    check_digits = 98 - (int(numeric) % 97)
+
+    return f"FI{check_digits:02d}{bban}"
+    
 
 def make_invoice(
     invoice_number,
@@ -152,7 +175,7 @@ def make_invoice(
         "vat_amount": round(amount - (amount / 1.255), 2),
         "total_amount": round(amount, 2),
         "currency": currency,
-        "iban": iban,
+        "iban": make_valid_finnish_iban(iban),
     }
 
 
