@@ -1,121 +1,241 @@
 # Process Definition Document
 
-## 1. Process Name
+## Enterprise Intelligent Invoice Processing
 
-Enterprise Intelligent Invoice Processing
+**Process Owner:** Accounts Payable Manager  
+**Process:** Supplier Invoice Processing  
+**Automation Platform:** UiPath  
+**Author:** Vera Stojcheva
 
-## 2. Process Owner
+---
 
-Accounts Payable Manager
+## 1. Process Objective
 
-## 3. Stakeholders
+The purpose of this process is to automate repetitive supplier invoice processing while keeping human control over invoices that require business judgment.
 
-- Accounts Payable Specialists
-- Finance Manager
-- Procurement Team
-- IT / Automation Team
+The process covers invoice receipt, information extraction, validation, business-rule checks, decisioning, human review when required, and ERP posting.
 
-## 4. Process Objective
+Invoices are assigned to one of three processing routes:
 
-Automate the processing and validation of supplier invoices — from receipt through extraction,
-validation, and decisioning — so that standard, rule-conforming invoices are processed without
-manual intervention, while ambiguous or exceptional invoices are routed to human employees for
-review.
+- **AUTO_PROCESS** — the invoice passes the required checks and can continue automatically.
+- **MANUAL_REVIEW** — the invoice contains an issue that requires human judgment.
+- **REJECT** — the invoice contains a reject-level condition and must not be posted.
 
-## 5. Inputs
+---
+
+## 2. Stakeholders
+
+| Stakeholder                 | Role                                                                |
+| --------------------------- | ------------------------------------------------------------------- |
+| Accounts Payable Manager    | Process owner and responsible for invoice-processing rules          |
+| Accounts Payable Specialist | Reviews exceptional invoices and makes approval/rejection decisions |
+| Finance                     | Financial control and oversight                                     |
+| Procurement                 | Supports supplier and purchase-order related issues                 |
+| IT / Automation Team        | Supports and maintains the automated process                        |
+
+---
+
+## 3. Process Inputs and Outputs
+
+### Inputs
 
 - Supplier invoice PDF
 - Supplier master data
-- Purchase order data
+- Purchase-order data
 - Historical invoice data
 
-## 6. Outputs
+Relevant invoice information includes:
 
-- Approved invoice (posted to ERP)
-- Manual review case
-- Rejected invoice
-- Processing log entry
+- Invoice number
+- Supplier
+- Purchase-order number
+- Amount
+- Currency
+- Invoice date
+- VAT information
+- IBAN where available
 
-## 7. Current Pain Points
+### Outputs
 
-- Repetitive manual work on invoices that are routine and low-risk
-- Data-entry errors introduced during manual transcription into the ERP
-- Slow, queue-dependent processing that delays payment cycles
-- Duplicate-payment risk due to inconsistent manual duplicate checking
-- Inconsistent validation quality across different AP employees
-- Poor visibility into processing status, volumes, and bottlenecks
-- Skilled employee time consumed by straightforward, non-exceptional invoices
+- Invoice posted to ERP
+- Invoice routed for human review
+- Invoice rejected
+- Processing outcome and validation information recorded
 
-## 8. Systems Involved
+---
 
-- Invoice source (email / shared folder / scanning system)
-- UiPath (extraction, validation, orchestration)
-- Supplier database
-- Purchase order database
-- ERP system
+## 4. AS-IS Process
 
-## 9. Process Frequency
+In the manual process, an Accounts Payable employee performs the main invoice-processing activities.
 
-Example volume assumption: **~100 invoices/day**, arriving throughout the business day with peaks
-around month-end.
+```text
+Supplier
+   ↓
+Invoice received
+   ↓
+AP employee
+   ↓
+Open invoice
+   ↓
+Extract information
+   ↓
+Supplier lookup
+   ↓
+PO lookup
+   ↓
+Amount validation
+   ↓
+Duplicate check
+   ↓
+ERP entry
+   ↓
+Approve / Escalate
+   ↓
+Archive
+```
 
-## 10. Business Rules
+[View AS-IS Process Diagram](AS_IS_Process.png)
 
-- Supplier must exist and be in an active status in the supplier master
-- Purchase order must exist and be open/valid
-- Invoice must not be a duplicate of a previously processed invoice
-- Invoice amount must match the PO amount within a defined tolerance (e.g. 2%)
-- Invoice currency must match the expected/PO currency
-- Additional rules (VAT format, minimum extraction confidence, auto-approval limit, etc.) as
-  defined in project configuration
+### Main Pain Points
 
-## 11. Known Exceptions
+- Repetitive manual processing of routine invoices
+- Manual data-entry effort and potential transcription errors
+- Employee time spent on predictable validation tasks
+- Risk of inconsistent validation
+- Duplicate-payment risk
+- Limited structured visibility into processing outcomes and exceptions
 
-- Missing purchase order
-- Unknown/unrecognized supplier
-- Duplicate invoice
-- Incorrect or mismatched amount
-- Unreadable or low-quality document
-- Low-confidence field extraction
+---
 
-## 12. Automation Suitability
+## 5. TO-BE Process
 
-This process is a strong automation candidate because it is:
+The target process automates routine invoice handling and directs human attention toward exceptional transactions.
 
-- **Repetitive** — the same sequence of lookups and checks is performed for every invoice
-- **Rule-based** — the vast majority of decisions (supplier valid? PO valid? amount matches?
-  duplicate?) follow clear, deterministic business rules rather than open-ended judgment
-- **High-volume** — a steady daily volume of invoices means even modest per-invoice time savings
-  compound into significant total effort reduction
-- **Structured but variable input** — invoices arrive as semi-structured PDF documents, which
-  document-understanding/OCR technology can reliably extract, while genuinely ambiguous cases can
-  still be escalated to a human
+```text
+Invoice
+   ↓
+Document Extraction
+   ↓
+Validation
+   ↓
+Supplier Check
+   ↓
+PO Check
+   ↓
+Duplicate Check
+   ↓
+Business Rules
+   ↓
+┌─────────────────┬───────────────────┬──────────────┐
+│                 │                   │              │
+AUTO_PROCESS   MANUAL_REVIEW        REJECT
+│                 │                   │
+▼                 ▼                   ▼
+ERP           Human Review       No ERP Posting
+                  │
+             ┌────┴─────┐
+             │          │
+          APPROVE     REJECT
+             │          │
+             ▼          ▼
+            ERP    No ERP Posting
+```
 
-## 13. Expected Business Value
+[View TO-BE Process Diagram](TO_BE_Process.png)
 
-- Reduced manual effort on routine, low-risk invoices
-- Reduced data-entry and validation errors
-- Faster invoice processing and shorter time-to-pay
-- Better auditability through consistent, logged processing decisions
-- AP staff time redirected toward invoices that genuinely require judgment
+The automation performs extraction and rule-based validation before determining the appropriate route.
 
-## 14. Functional Requirements
+Straightforward invoices can continue without human intervention. Exceptional invoices are either routed to an Accounts Payable specialist or rejected according to the applicable business rules.
 
-| ID    | Requirement                                                                                                      |
-| ----- | ---------------------------------------------------------------------------------------------------------------- |
-| FR-01 | The system shall retrieve incoming invoices from the source location.                                            |
-| FR-02 | The system shall extract invoice information (invoice number, supplier, PO, amount, currency, dates, VAT, IBAN). |
-| FR-03 | The system shall validate the supplier against supplier master data.                                             |
-| FR-04 | The system shall validate the invoice against purchase order data.                                               |
-| FR-05 | The system shall detect duplicate invoices.                                                                      |
-| FR-06 | The system shall apply configurable business rules to reach a decision (auto-process, review, reject).           |
-| FR-07 | The system shall log every processing outcome for auditability.                                                  |
+---
 
-## 15. Acceptance Criteria
+## 6. Business Rules
 
-- Valid invoices (correct supplier, PO, amount, and no duplicate) are processed automatically
-  without human intervention.
-- Duplicate invoices are always rejected and never posted to the ERP.
-- Invalid, ambiguous, or low-confidence invoices are routed to human review rather than
-  auto-processed.
-- Every invoice transaction — successful or not — is logged with a clear outcome and reason.
+The main business rules used to determine invoice routing are:
+
+| Condition                                        | Route         |
+| ------------------------------------------------ | ------------- |
+| Required validations passed                      | AUTO_PROCESS  |
+| Missing purchase order                           | MANUAL_REVIEW |
+| Unknown supplier                                 | MANUAL_REVIEW |
+| PO amount mismatch                               | MANUAL_REVIEW |
+| PO currency mismatch                             | MANUAL_REVIEW |
+| Missing VAT                                      | MANUAL_REVIEW |
+| High-value invoice                               | MANUAL_REVIEW |
+| Missing or unusable critical invoice information | MANUAL_REVIEW |
+| Duplicate invoice                                | REJECT        |
+
+An invoice may contain multiple validation findings.
+
+When multiple conditions apply, the final route follows:
+
+```text
+REJECT > MANUAL_REVIEW > AUTO_PROCESS
+```
+
+For example, an invoice containing both a PO mismatch and a duplicate condition is rejected because the duplicate condition has higher routing priority.
+
+Detailed exception classification and handling are documented in the [Exception Matrix](Exception_Matrix.md).
+
+---
+
+## 7. Functional Requirements
+
+| ID    | Requirement                                                                                                  |
+| ----- | ------------------------------------------------------------------------------------------------------------ |
+| FR-01 | Retrieve incoming supplier invoices from the configured source                                               |
+| FR-02 | Extract the required invoice information, using OCR fallback when necessary                                  |
+| FR-03 | Validate extracted invoice data                                                                              |
+| FR-04 | Validate the supplier against supplier-master data                                                           |
+| FR-05 | Validate invoice information against purchase-order data                                                     |
+| FR-06 | Detect previously processed duplicate invoices                                                               |
+| FR-07 | Apply business rules and assign AUTO_PROCESS, MANUAL_REVIEW, or REJECT                                       |
+| FR-08 | Preserve multiple applicable validation findings                                                             |
+| FR-09 | Allow a human reviewer to approve or reject MANUAL_REVIEW transactions                                       |
+| FR-10 | Send eligible AUTO_PROCESS and human-approved invoices to ERP processing                                     |
+| FR-11 | Prevent rejected invoices from being posted to the ERP                                                       |
+| FR-12 | Record the processing outcome and relevant validation information for each transaction                       |
+| FR-13 | Handle individual invoices independently so that one failed transaction does not stop the remaining workload |
+
+---
+
+## 8. Acceptance Criteria
+
+The process meets the defined requirements when:
+
+- Valid invoices can be processed automatically without human intervention.
+- Duplicate invoices are rejected and prevented from ERP posting.
+- Review-level validation issues result in human review rather than automatic posting.
+- Missing or unusable critical invoice information prevents straight-through processing.
+- Human reviewers can approve or reject review transactions.
+- Approved review transactions can continue to ERP processing.
+- Rejected review transactions do not proceed to ERP posting.
+- Multiple applicable validation findings can be retained for one invoice.
+- Reject-level conditions take precedence over review-level conditions.
+- Processing outcomes are recorded and individual invoice transactions remain isolated.
+
+Acceptance testing and demonstrated results are documented in the [UAT Report](UAT_Report.md).
+
+---
+
+## 9. Process Scope
+
+The implemented process is a portfolio prototype using synthetic invoice, supplier, purchase-order, and historical invoice data.
+
+The process demonstrates:
+
+- Automated invoice extraction
+- OCR fallback
+- Invoice and business-data validation
+- Duplicate detection
+- Business-rule decisioning
+- Human-in-the-loop review
+- ERP posting
+- Exception handling
+- Transaction traceability
+
+The ERP and human-review environments are simulated for the prototype.
+
+Full Document Understanding confidence-based extraction and production enterprise integrations are outside the implemented scope.
+
+Technical implementation and architecture are documented separately in the [Solution Design Document](Solution_Design_Document.md).
