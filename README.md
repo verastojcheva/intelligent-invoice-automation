@@ -264,6 +264,32 @@ The test dataset is intentionally exception-heavy. These percentages demonstrate
 
 ---
 
+## Power BI Operational Dashboard
+
+The verified `FinalDemo` results are visualized in a Power BI dashboard designed to provide an operational view of automation performance and exception handling.
+
+The dashboard includes:
+
+- Total invoices processed
+- ERP postings
+- Straight-through processing rate
+- Manual review rate
+- Reject rate
+- Processing route distribution
+- Exception breakdown
+- Final processing outcomes
+- Human review decisions
+
+The dashboard uses the controlled 17-scenario demonstration dataset. The results illustrate the behavior of the prototype and are not intended to represent expected production invoice distributions.
+
+![Power BI Operational Dashboard](powerbi/dashboard-preview.png)
+
+The Power BI report is available here:
+
+[`powerbi/Intelligent_Invoice_Automation_Dashboard.pbix`](powerbi/Intelligent_Invoice_Automation_Dashboard.pbix)
+
+---
+
 ## Business Value
 
 The solution demonstrates how Accounts Payable automation can:
@@ -310,6 +336,10 @@ intelligent-invoice-automation/
 │   ├── Solution_Design_Document.md
 │   ├── TO_BE_Process.png
 │   └── UAT_Report.md
+│
+├── powerbi/
+│   ├── dashboard-preview.png
+│   └── Intelligent_Invoice_Automation_Dashboard.pbix
 │
 ├── python/
 │   ├── anomaly_detection.py
@@ -427,7 +457,7 @@ Potential production-oriented extensions include:
 - Production ERP integration
 - Enterprise credential and secret management
 - Production database infrastructure
-- Enhanced operational dashboards
+- Production-connected operational analytics and automated Power BI refresh
 - Power Platform integration
 - Expanded automated test coverage
 - Production-scale performance and load testing
